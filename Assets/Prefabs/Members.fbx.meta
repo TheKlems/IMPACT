@@ -1,0 +1,170 @@
+fileFormatVersion: 2
+guid: d1795815fbe781f43bda429dc5990b23
+timeCreated: 1493301021
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: AnkleLeft
+    100002: AnkleRight
+    100004: Armature
+    100006: ArmLeft
+    100008: ArmRight
+    100010: ElbowLeft
+    100012: ElbowRight
+    100014: Foot_L_end
+    100016: Foot_L_end_end
+    100018: Foot_R_end
+    100020: Foot_R_end_end
+    100022: FootLeft
+    100024: FootRight
+    100026: HandLeft
+    100028: HandRight
+    100030: HandTip_L_end
+    100032: HandTip_L_end_end
+    100034: HandTip_R_end
+    100036: HandTip_R_end_end
+    100038: HandTipLeft
+    100040: HandTipRight
+    100042: Head
+    100044: Head_end
+    100046: Head_end_end
+    100048: HipLeft
+    100050: HipRight
+    100052: KneeLeft
+    100054: KneeRight
+    100056: LegLeft
+    100058: LegRight
+    100060: //RootNode
+    100062: Neck
+    100064: ShoulderLeft
+    100066: ShoulderRight
+    100068: SpineBase
+    100070: SpineMid
+    100072: SpineShoulder
+    100074: Thumb_L_end
+    100076: Thumb_L_end_end
+    100078: Thumb_R_end
+    100080: Thumb_R_end_end
+    100082: ThumbLeft
+    100084: ThumbRight
+    100086: WristLeft
+    100088: WristRight
+    400000: AnkleLeft
+    400002: AnkleRight
+    400004: Armature
+    400006: ArmLeft
+    400008: ArmRight
+    400010: ElbowLeft
+    400012: ElbowRight
+    400014: Foot_L_end
+    400016: Foot_L_end_end
+    400018: Foot_R_end
+    400020: Foot_R_end_end
+    400022: FootLeft
+    400024: FootRight
+    400026: HandLeft
+    400028: HandRight
+    400030: HandTip_L_end
+    400032: HandTip_L_end_end
+    400034: HandTip_R_end
+    400036: HandTip_R_end_end
+    400038: HandTipLeft
+    400040: HandTipRight
+    400042: Head
+    400044: Head_end
+    400046: Head_end_end
+    400048: HipLeft
+    400050: HipRight
+    400052: KneeLeft
+    400054: KneeRight
+    400056: LegLeft
+    400058: LegRight
+    400060: //RootNode
+    400062: Neck
+    400064: ShoulderLeft
+    400066: ShoulderRight
+    400068: SpineBase
+    400070: SpineMid
+    400072: SpineShoulder
+    400074: Thumb_L_end
+    400076: Thumb_L_end_end
+    400078: Thumb_R_end
+    400080: Thumb_R_end_end
+    400082: ThumbLeft
+    400084: ThumbRight
+    400086: WristLeft
+    400088: WristRight
+    4300000: ArmRight
+    4300002: LegLeft
+    4300004: LegRight
+    4300006: ArmLeft
+    9500000: //RootNode
+    13700000: ArmLeft
+    13700002: ArmRight
+    13700004: LegLeft
+    13700006: LegRight
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
