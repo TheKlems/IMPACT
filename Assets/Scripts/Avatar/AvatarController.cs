@@ -45,7 +45,7 @@ public class AvatarController : MonoBehaviour
     public bool ArmLeft { get; set; }
     public bool ArmRight { get; set; }
 
-    //private AvatarScaler _AvatarScaler;
+    private AvatarScaler _AvatarScaler;
     private ChangeExercise _ChangeExercise;
 
     private float timeAmt = 5;
@@ -171,7 +171,7 @@ public class AvatarController : MonoBehaviour
 
     void Start()
     {
-        //_AvatarScaler = GetComponent<AvatarScaler>();
+        _AvatarScaler = GetComponent<AvatarScaler>();
         _ChangeExercise = GetComponent<ChangeExercise>();
 
         LegLeft = true;
@@ -272,8 +272,8 @@ public class AvatarController : MonoBehaviour
 
     private void RefreshBodyObject(Kinect.Body body, GameObject bodyObject, Transform[] _JointRig)
     {
-        //Scale the avatar is apparently useless. The camera follows the Head position and the proportions are the same than before.
-        //_AvatarScaler.Scale(body, bodyObject, _JointRig);
+        
+        _AvatarScaler.Scale(bodyObject, _JointRig);
 
         SetPositionToKinect(body, Kinect.JointType.SpineBase, _JointRig, firstRefreshBody);
         _ChangeExercise.ShowOrHideMember(bodyObject);

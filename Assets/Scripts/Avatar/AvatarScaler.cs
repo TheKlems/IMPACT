@@ -3,42 +3,33 @@ using Kinect = Windows.Kinect;
 
 public class AvatarScaler : MonoBehaviour {
 
-    private int frame = 1;
-    private float totalAfter100frames = 0;
-    private float averageDistanceKneeAnkle = 0;
+    [Range(1f, 2f)]
+    public float membersLength = 1f;
+
+    [Range(1f, 2f)]
+    public float membersThickness = 1f;
+
+    private Transform shoulderLeft;
+    private Transform shoulderRigth;
+    private Transform legLeft;
+    private Transform legRight;
 
     /// <summary>
-    /// Scale the avatar body like our real body.
+    /// Scale the length and thickness of the avatar
     /// </summary>
     /// <returns>Void</returns>
-    public void Scale(Kinect.Body body, GameObject bodyObject, Transform[] _JointRig)
+    public void Scale(GameObject bodyObject, Transform[] _JointRig)
     {
-        if (frame <= 100)
-        {
-            //distance between Head and Ankle (virtual avatar)
-            float dist_JointRig = Vector3.Distance(_JointRig[13].position, _JointRig[3].position);
+        shoulderLeft = _JointRig[4];
+        shoulderRigth = _JointRig[8];
+        legLeft = _JointRig[12];
+        legRight = _JointRig[16];
 
-            Kinect.Joint HeadJoint = body.Joints[Kinect.JointType.Head];
-            Kinect.Joint AnkleLeftJoint = body.Joints[Kinect.JointType.AnkleLeft];
-            Vector3 HeadPosition = new Vector3(HeadJoint.Position.X, HeadJoint.Position.Y, HeadJoint.Position.Z);
-            Vector3 AnkleLeftPosition = new Vector3(AnkleLeftJoint.Position.X, AnkleLeftJoint.Position.Y, AnkleLeftJoint.Position.Z);
+        shoulderLeft.localScale = new Vector3(membersLength, membersThickness, membersThickness);
+        shoulderRigth.localScale = new Vector3(membersLength, membersThickness, membersThickness);
 
-            //distance between Head and Ankle (our body, Kinect)
-            float distHeadAnkle = Vector3.Distance(HeadPosition, AnkleLeftPosition);
-
-            totalAfter100frames += distHeadAnkle;
-
-            if (frame == 100)
-            {
-                averageDistanceKneeAnkle = totalAfter100frames / frame;
-
-                float scaleFactor = averageDistanceKneeAnkle / dist_JointRig;
-
-                //scale the body
-                bodyObject.transform.localScale = new Vector3(bodyObject.transform.localScale.x * scaleFactor, bodyObject.transform.localScale.y * scaleFactor, bodyObject.transform.localScale.z * scaleFactor);
-            }
-            frame += 1;
-        }
+        legLeft.localScale = new Vector3(membersThickness, membersLength, membersThickness);
+        legRight.localScale = new Vector3(membersThickness, membersLength, membersThickness);
         return;
     }
 }
