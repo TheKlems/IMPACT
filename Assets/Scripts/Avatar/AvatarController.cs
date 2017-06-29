@@ -24,7 +24,8 @@ public class AvatarController : MonoBehaviour
 
     public bool AllowOvrvision = true;
     public bool Ovrvision { get; set; }
-    public bool MonoTracking = true;
+    //public bool MonoTracking = true;
+    public bool MonoTracking { get; set; }
 
     [Range(1f, 100f)]
     public float smoothFactor = 5f;

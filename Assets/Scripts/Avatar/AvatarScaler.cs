@@ -3,11 +3,14 @@ using Kinect = Windows.Kinect;
 
 public class AvatarScaler : MonoBehaviour {
 
-    [Range(1f, 2f)]
-    public float membersLength = 1f;
 
-    [Range(1f, 2f)]
-    public float membersThickness = 1f;
+    //[Range(1f, 2f)]
+    //public float membersLength = 1f;
+    public float membersLength { get; set; }
+
+    //[Range(1f, 2f)]
+    //public float membersThickness = 1f;
+    public float membersThickness { get; set; }
 
     private Transform shoulderLeft;
     private Transform shoulderRigth;

@@ -86,6 +86,7 @@
      <Compile Include="Assets\Scripts\Avatar\Exercises Controller\FullBodyController.cs" />
      <Compile Include="Assets\Scripts\Avatar\Exercises Controller\LegLeftController.cs" />
      <Compile Include="Assets\Scripts\Avatar\Exercises Controller\LegRightController.cs" />
+     <Compile Include="Assets\Scripts\DisplayScript.cs" />
      <Compile Include="Assets\Scripts\EditorScripts\AvatarControllerEditor.cs" />
      <Compile Include="Assets\Scripts\KinectManager.cs" />
      <Compile Include="Assets\Scripts\Reticle.cs" />
