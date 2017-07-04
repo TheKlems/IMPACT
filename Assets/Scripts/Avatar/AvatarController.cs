@@ -11,8 +11,10 @@ public class AvatarController : MonoBehaviour
     public GameObject KinectManager;
 
     //We use a body prefab to generate the bodies of each tracked person
-    public GameObject FullBodyPrefab;
-    GameObject FullBody;
+    public GameObject FullBodySourcePrefab;
+    GameObject FullBodySource;
+
+    public GameObject FullBodyDestination;
 
     public GameObject FrameworkPrefab;
     GameObject Framework;
@@ -24,7 +26,6 @@ public class AvatarController : MonoBehaviour
 
     public bool AllowOvrvision = true;
     public bool Ovrvision { get; set; }
-    //public bool MonoTracking = true;
     public bool MonoTracking { get; set; }
 
     [Range(1f, 100f)]
@@ -46,8 +47,10 @@ public class AvatarController : MonoBehaviour
     public bool ArmLeft { get; set; }
     public bool ArmRight { get; set; }
 
+    private KinectManager _KinectManager;
     private AvatarScaler _AvatarScaler;
     private ChangeExercise _ChangeExercise;
+    private BoneLimits _BoneLimits;
 
     private float timeAmt = 5;
     private float time = 0;
@@ -61,39 +64,23 @@ public class AvatarController : MonoBehaviour
     //This dictionary contains references of the bones of the instantiated body
     private Dictionary<ulong, Transform[]> _JointRig = new Dictionary<ulong, Transform[]>();
 
-    private KinectManager _KinectManager;
+    private Dictionary<ulong, Transform[]> _JointRigDestination = new Dictionary<ulong, Transform[]>();
 
     public Dictionary<int, Quaternion> _EulerOrientations = new Dictionary<int, Quaternion>()
     {
         {0, Quaternion.Euler(0, 0, 0)},
         {1, Quaternion.Euler(0, 0, 0)},
-        {5, Quaternion.Euler(0, -90, -90)},
+        {2, Quaternion.Euler(0, 0, 0)},
+        {4, Quaternion.Euler(0, -90, -90)},
+        {5, Quaternion.Euler(0, 0, -90)},
         {6, Quaternion.Euler(0, 0, -90)},
-        {7, Quaternion.Euler(0, 0, -90)},
-        {9, Quaternion.Euler(0, 90, 90)},
+        {8, Quaternion.Euler(0, 90, 90)},
+        {9, Quaternion.Euler(0, 0, 90)},
         {10, Quaternion.Euler(0, 0, 90)},
-        {11, Quaternion.Euler(0, 0, 90)},
+        {12, Quaternion.Euler(0, -90, 180)},
         {13, Quaternion.Euler(0, -90, 180)},
-        {14, Quaternion.Euler(0, -90, 180)},
+        {16, Quaternion.Euler(0, 90, 180)},
         {17, Quaternion.Euler(0, 90, 180)},
-        {18, Quaternion.Euler(0, 90, 180)},
-        {20, Quaternion.Euler(0, 0, 0)},
-    };
-
-    public Dictionary<int, Quaternion> _EulerOrientationsModeMirrored = new Dictionary<int, Quaternion>()
-    {
-        {0, Quaternion.Euler(0, 0, 0)},
-        {1, Quaternion.Euler(0, 0, 0)},
-        {5, Quaternion.Euler(0, 90, 90)},
-        {6, Quaternion.Euler(0, 0, 90)},
-        {7, Quaternion.Euler(0, 0, 90)},
-        {9, Quaternion.Euler(0, -90, -90)},
-        {10, Quaternion.Euler(0, 0, -90)},
-        {11, Quaternion.Euler(0, 0, -90)},
-        {13, Quaternion.Euler(0, 90, 180)},
-        {14, Quaternion.Euler(0, 90, 180)},
-        {17, Quaternion.Euler(0, -90, 180)},
-        {18, Quaternion.Euler(0, -90, 180)},
         {20, Quaternion.Euler(0, 0, 0)},
     };
 
@@ -101,6 +88,7 @@ public class AvatarController : MonoBehaviour
     {
         {0, 0},
         {1, 0},
+        {2, 0},
         {5, -1},
         {6, -1},
         {7, -1},
@@ -118,6 +106,7 @@ public class AvatarController : MonoBehaviour
     {
         {0, 0},
         {1, 0},
+        {2, 0},
         {5, +3},
         {6, +3},
         {7, +3},
@@ -137,7 +126,7 @@ public class AvatarController : MonoBehaviour
         //Spine and head
         {"SpineBase", 0},
         {"SpineMid", 1},
-        {"Neck", 2},//Unused
+        {"Neck", 2},
         {"Head", 3},
         {"SpineShoulder", 20},
         
@@ -174,14 +163,15 @@ public class AvatarController : MonoBehaviour
     {
         _AvatarScaler = GetComponent<AvatarScaler>();
         _ChangeExercise = GetComponent<ChangeExercise>();
+        _BoneLimits = FullBodyDestination.GetComponent<BoneLimits>();
+
+        UpdateWhenOffscreen(FullBodyDestination);
 
         LegLeft = true;
         LegRight = true;
-        //ArmLeft = true;
-        //ArmRight = true;
     }
 
-    void Update()
+    void LateUpdate()
     {
         CameraManager();
 
@@ -221,14 +211,16 @@ public class AvatarController : MonoBehaviour
                     _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
 
                     //We need to map the joints of the specific character to his body
-                    _JointRig[body.TrackingId] = ReferenceRigToBody(body, _KinectToRig, _Bodies[body.TrackingId]);
+                    _JointRig[body.TrackingId] = ReferenceRigToBody(_KinectToRig, _Bodies[body.TrackingId]);
+                    _JointRigDestination[body.TrackingId] = ReferenceRigToBody(_KinectToRig, FullBodyDestination);
 
                     bodies++;
                 }
                 if (_Bodies.ContainsKey(body.TrackingId))
                 {
                     //otherwise the body exists already and we have to refresh it
-                    RefreshBodyObject(body, _Bodies[body.TrackingId], _JointRig[body.TrackingId]);
+                    RefreshBodyObject(body, _Bodies[body.TrackingId], _JointRig[body.TrackingId], _JointRigDestination[body.TrackingId]);
+                    SetPositionToKinectAvatarDestination(_JointRig[body.TrackingId]);
                 }
             }
         }
@@ -256,8 +248,10 @@ public class AvatarController : MonoBehaviour
     private GameObject CreateBodyObject(ulong id)
     {
         //We create a new body object named by the id
-        FullBody = Instantiate(FullBodyPrefab) as GameObject;
-        FullBody.name = FullBody.ToString() + id;
+        FullBodySource = Instantiate(FullBodySourcePrefab) as GameObject;
+        FullBodySource.name = FullBodySource.ToString() + id;
+        FullBodySource.SetActive(false);
+        _BoneLimits.InitPose(FullBodySource);
 
         Framework = Instantiate(FrameworkPrefab) as GameObject;
         Framework.name = Framework.ToString() + id;
@@ -266,20 +260,22 @@ public class AvatarController : MonoBehaviour
         LoadingBar.name = LoadingBar.ToString() + id;
         LoadingBar.SetActive(false);
 
-        UpdateWhenOffscreen(FullBody);
-
-        return FullBody;
+        return FullBodySource;
     }
 
-    private void RefreshBodyObject(Kinect.Body body, GameObject bodyObject, Transform[] _JointRig)
+    private void RefreshBodyObject(Kinect.Body body, GameObject bodyObject, Transform[] _JointRig, Transform[] _JointRigDestination)
     {
         
-        _AvatarScaler.Scale(bodyObject, _JointRig);
+        _AvatarScaler.Scale(_JointRig);
+        _AvatarScaler.Scale(_JointRigDestination);
+
 
         SetPositionToKinect(body, Kinect.JointType.SpineBase, _JointRig, firstRefreshBody);
         _ChangeExercise.ShowOrHideMember(bodyObject);
         if (firstRefreshBody)
         {
+            _AvatarScaler.ScaleAvatar(bodyObject);
+            _AvatarScaler.ScaleAvatar(FullBodyDestination);
             CameraContainer.transform.position = new Vector3(_JointRig[3].position.x, _JointRig[3].position.y, _JointRig[3].position.z);
             Framework.transform.position = new Vector3(_JointRig[0].position.x - 0.0387f, _JointRig[3].position.y + 0.087f, 0);
             InputTracking.Recenter();
@@ -296,13 +292,15 @@ public class AvatarController : MonoBehaviour
         }
 
         _ChangeExercise.Change(body, _JointRig);
+
+        return;
     }
 
     /// <summary>
     /// Map the Joints of the mesh to match the TypeJoints of the Kinect
     /// </summary>
     /// <returns>Transform list of all the joints in the order of the TypeJoints of the Kinect</returns>
-    private Transform[] ReferenceRigToBody(Kinect.Body body, Dictionary<string, int> _KinectToRig, GameObject Fullbody)
+    private Transform[] ReferenceRigToBody(Dictionary<string, int> _KinectToRig, GameObject Fullbody)
     {
         //List<Transform> JointRig = new List<Transform>();
 
@@ -363,19 +361,36 @@ public class AvatarController : MonoBehaviour
     }
 
     /// <summary>
+    /// Set the position of the mesh root of the clone to the position of the kinect joint 
+    /// </summary>
+    /// <returns>Void</returns>
+    private void SetPositionToKinectAvatarDestination(Transform[] _JointRig)
+    {
+        var list = FullBodyDestination.GetComponentsInChildren<Transform>();
+        foreach (var child in list)
+        {
+            if (child.name.Equals("SpineBase"))
+            {
+                child.position = _JointRig[0].position;
+            }
+        }
+
+        return;
+    }
+
+    /// <summary>
     /// Smooth Factor 
     /// </summary>
     /// <returns>Void</returns>
-    public void SetSmoothFactor(int RigIndex, Quaternion newRotation, Transform[] _JointRig, int jointReference)
+    public void SetSmoothFactor(int BoneIndex, Quaternion newRotation, Transform[] _JointRig)
     {
-        //if (RigIndex == 0  || RigIndex == 13 || RigIndex == 17)
-        if (RigIndex == 0)
+        if (BoneIndex == 0)
         {
-            _JointRig[RigIndex + jointReference].rotation = Quaternion.Slerp(_JointRig[RigIndex + jointReference].rotation, newRotation, smoothFactorRotationSpineBase * Time.deltaTime);
+            _JointRig[BoneIndex].rotation = Quaternion.Slerp(_JointRig[BoneIndex].rotation, newRotation, smoothFactorRotationSpineBase * Time.deltaTime);
         }
         else
         {
-            _JointRig[RigIndex + jointReference].rotation = Quaternion.Slerp(_JointRig[RigIndex + jointReference].rotation, newRotation, smoothFactor * Time.deltaTime);
+            _JointRig[BoneIndex].rotation = Quaternion.Slerp(_JointRig[BoneIndex].rotation, newRotation, smoothFactor * Time.deltaTime);
         }
         return;
     }

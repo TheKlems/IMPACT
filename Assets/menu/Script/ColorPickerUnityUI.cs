@@ -11,7 +11,6 @@ public class ColorPickerUnityUI : MonoBehaviour
     public Image colorPalette;
     public float test;
 
-
     public void OnPress()
     {
         //Debug.Log("Button pressed");

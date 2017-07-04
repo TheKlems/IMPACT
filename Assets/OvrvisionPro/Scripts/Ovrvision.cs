@@ -139,8 +139,8 @@ public class Ovrvision : MonoBehaviour
 		{
 			OvrPro.useOvrvisionTrack_Calib = true;
             
-            CameraPlaneRight.active = !OvrPro.useOvrvisionTrack_Calib;
-		}
+            CameraPlaneRight.SetActive(!OvrPro.useOvrvisionTrack_Calib);
+        }
         //SetActive()
 		//yield return StartCoroutine("CallPluginAtEndOfFrames");
 	}
@@ -196,7 +196,7 @@ public class Ovrvision : MonoBehaviour
 			if (useOvrvisionTrack)
 			{
 				OvrPro.useOvrvisionTrack_Calib = true;
-				CameraPlaneRight.active = !OvrPro.useOvrvisionTrack_Calib;
+				CameraPlaneRight.SetActive(!OvrPro.useOvrvisionTrack_Calib);
 			}
 		}
 		if (useOvrvisionTrack)
@@ -204,7 +204,7 @@ public class Ovrvision : MonoBehaviour
 			if (Input.GetKeyDown(KeyCode.H))
 			{
 				OvrPro.useOvrvisionTrack_Calib ^= true;
-				CameraPlaneRight.active = !OvrPro.useOvrvisionTrack_Calib;
+                CameraPlaneRight.SetActive(!OvrPro.useOvrvisionTrack_Calib);
 			}
 		}
 
