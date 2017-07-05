@@ -5,7 +5,7 @@ using UnityEngine;
 public class soccerManager : MonoBehaviour {
 
     public GameObject ballPrefab;
-    GameObject ball;
+    private GameObject ball;
 
     // Use this for initialization
     void Start () {
