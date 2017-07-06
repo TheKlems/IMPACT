@@ -129,9 +129,9 @@
     <Compile Include="Assets\Scripts\Avatar\Exercises Controller\LegRight.cs" />
     <Compile Include="Assets\Scripts\DisplayScript.cs" />
     <Compile Include="Assets\Scripts\EditorScripts\AvatarControllerEditor.cs" />
+    <Compile Include="Assets\Scripts\GoalTrigger.cs" />
     <Compile Include="Assets\Scripts\KinectManager.cs" />
     <Compile Include="Assets\Scripts\Reticle.cs" />
-    <Compile Include="Assets\Scripts\TriggerGoal.cs" />
     <Compile Include="Assets\Scripts\soccerManager.cs" />
     <Compile Include="Assets\Terrain\ToggleTerrain.cs" />
     <Compile Include="Assets\menu\Script\ChangeColor.cs" />
