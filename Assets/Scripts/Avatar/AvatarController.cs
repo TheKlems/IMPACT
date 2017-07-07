@@ -166,9 +166,10 @@ public class AvatarController : MonoBehaviour
         _BoneLimits = FullBodyDestination.GetComponent<BoneLimits>();
 
         UpdateWhenOffscreen(FullBodyDestination);
-
+        /*
         LegLeft = true;
         LegRight = true;
+        */
     }
 
     void LateUpdate()
