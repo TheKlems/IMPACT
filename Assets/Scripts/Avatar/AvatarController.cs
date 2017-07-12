@@ -25,8 +25,9 @@ public class AvatarController : MonoBehaviour
     public GameObject IntroScene;
 
     public bool AllowOvrvision = true;
+    //public bool AllowOvrvision { get; set; }
     public bool Ovrvision { get; set; }
-    public bool MonoTracking { get; set; }
+    //public bool MonoTracking { get; set; }
 
     [Range(1f, 100f)]
     public float smoothFactor = 5f;
@@ -37,8 +38,8 @@ public class AvatarController : MonoBehaviour
     [Range(1f, 100f)]
     public float smoothFactorRotationSpineBase = 1f;
 
-    public enum ExercisesEnum { FullBody, LegLeft, LegRight, ArmLeft, ArmRight };
-    public ExercisesEnum Exercises;
+    public enum ModalityEnum { FullBody, LegLeft, LegRight, ArmLeft, ArmRight };
+    public ModalityEnum Modality;
 
     public bool Mirrored { get; set; }
 
@@ -49,7 +50,7 @@ public class AvatarController : MonoBehaviour
 
     private KinectManager _KinectManager;
     private AvatarScaler _AvatarScaler;
-    private ChangeExercise _ChangeExercise;
+    private ChangeModality _ChangeModality;
     private BoneLimits _BoneLimits;
 
     private float timeAmt = 5;
@@ -162,7 +163,7 @@ public class AvatarController : MonoBehaviour
     void Start()
     {
         _AvatarScaler = GetComponent<AvatarScaler>();
-        _ChangeExercise = GetComponent<ChangeExercise>();
+        _ChangeModality = GetComponent<ChangeModality>();
         _BoneLimits = FullBodyDestination.GetComponent<BoneLimits>();
 
         UpdateWhenOffscreen(FullBodyDestination);
@@ -206,7 +207,7 @@ public class AvatarController : MonoBehaviour
             if (body.IsTracked)
             {
                 trackedIds.Add(body.TrackingId);  //We add the ID of all the tracked body from the the current frame in the tracked body list
-                if (!_Bodies.ContainsKey(body.TrackingId) && !(bodies > 0 && MonoTracking == true))
+                if (!_Bodies.ContainsKey(body.TrackingId) && bodies == 0)
                 {
                     //if the body isn't already in the _Bodies dictionnary, we create a new body object and add it to the dictionnary
                     _Bodies[body.TrackingId] = CreateBodyObject(body.TrackingId);
@@ -272,15 +273,18 @@ public class AvatarController : MonoBehaviour
 
 
         SetPositionToKinect(body, Kinect.JointType.SpineBase, _JointRig, firstRefreshBody);
-        _ChangeExercise.ShowOrHideMember(bodyObject);
+        _ChangeModality.ShowOrHideMember(bodyObject);
+
         if (firstRefreshBody)
         {
-            _AvatarScaler.ScaleAvatar(bodyObject);
-            _AvatarScaler.ScaleAvatar(FullBodyDestination);
             CameraContainer.transform.position = new Vector3(_JointRig[3].position.x, _JointRig[3].position.y, _JointRig[3].position.z);
             Framework.transform.position = new Vector3(_JointRig[0].position.x - 0.0387f, _JointRig[3].position.y + 0.087f, 0);
             InputTracking.Recenter();
         }
+
+        _AvatarScaler.ScaleAvatar(bodyObject);
+        _AvatarScaler.ScaleAvatar(FullBodyDestination);
+
         firstRefreshBody = false;
 
         Calibration(_JointRig);
@@ -292,7 +296,7 @@ public class AvatarController : MonoBehaviour
             InputTracking.Recenter();
         }
 
-        _ChangeExercise.Change(body, _JointRig);
+        _ChangeModality.ApplyModality(body, _JointRig);
 
         return;
     }

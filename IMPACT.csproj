@@ -121,7 +121,7 @@
     <Compile Include="Assets\Scripts\Avatar\AvatarController.cs" />
     <Compile Include="Assets\Scripts\Avatar\AvatarScaler.cs" />
     <Compile Include="Assets\Scripts\Avatar\BoneLimits.cs" />
-    <Compile Include="Assets\Scripts\Avatar\ChangeExercise.cs" />
+    <Compile Include="Assets\Scripts\Avatar\ChangeModality.cs" />
     <Compile Include="Assets\Scripts\Avatar\Exercises Controller\ArmLeft.cs" />
     <Compile Include="Assets\Scripts\Avatar\Exercises Controller\ArmRight.cs" />
     <Compile Include="Assets\Scripts\Avatar\Exercises Controller\FullBody.cs" />
@@ -136,6 +136,7 @@
     <Compile Include="Assets\Terrain\ToggleTerrain.cs" />
     <Compile Include="Assets\menu\Script\ChangeColor.cs" />
     <Compile Include="Assets\menu\Script\ColorPickerUnityUI.cs" />
+    <Compile Include="Assets\menu\Script\DropdownInput.cs" />
     <Compile Include="Assets\menu\Script\Menu.cs" />
     <Compile Include="Assets\menu\Script\MenuManager.cs" />
     <Compile Include="Assets\menu\Script\Multidisplay.cs" />

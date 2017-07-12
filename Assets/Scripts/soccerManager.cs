@@ -19,13 +19,18 @@ public class soccerManager : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown("r"))
         {
+            /*
             Vector3 playerPos = player.transform.position;
+            
             Vector3 playerDirection = player.transform.forward;
+            
             Quaternion playerRotation = player.transform.rotation;
-
+            
             Vector3 spawnPos = playerPos + playerDirection * spawnDistance;
-
+            
             ball = Instantiate(ballPrefab, spawnPos, playerRotation) as GameObject;
+            */
+            return;
         }
 
 
