@@ -11,7 +11,7 @@ public class soccerManager : MonoBehaviour {
     private Vector3 playerPos;
     private Vector3 playerDirection;
     private Quaternion playerRotation;
-    private float spawnDistance = 0.8f;
+    private float spawnDistance = 0.2f;
 
     private Vector3 spawnPos;
 	
@@ -19,7 +19,7 @@ public class soccerManager : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown("r"))
         {
-            /*
+            
             Vector3 playerPos = player.transform.position;
             
             Vector3 playerDirection = player.transform.forward;
@@ -29,7 +29,7 @@ public class soccerManager : MonoBehaviour {
             Vector3 spawnPos = playerPos + playerDirection * spawnDistance;
             
             ball = Instantiate(ballPrefab, spawnPos, playerRotation) as GameObject;
-            */
+            
             return;
         }
 

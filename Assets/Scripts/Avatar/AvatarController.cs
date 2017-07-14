@@ -29,14 +29,11 @@ public class AvatarController : MonoBehaviour
     public bool Ovrvision { get; set; }
     //public bool MonoTracking { get; set; }
 
-    [Range(1f, 100f)]
-    public float smoothFactor = 5f;
+    [Range(0f, 30f)]
+    public float smoothFactor = 25f;
 
-    [Range(1f, 100f)]
-    public float smoothFactorPositionSpineBase = 1f;
-
-    [Range(1f, 100f)]
-    public float smoothFactorRotationSpineBase = 1f;
+    [Range(0f, 30f)]
+    public float smoothFactorSpineBase = 29f;
 
     public enum ModalityEnum { FullBody, LegLeft, LegRight, ArmLeft, ArmRight };
     public ModalityEnum Modality;
@@ -360,7 +357,7 @@ public class AvatarController : MonoBehaviour
         }
         else
         {
-            _JointRig[0].position = Vector3.Slerp(_JointRig[0].position, KinectPos, smoothFactorPositionSpineBase * Time.deltaTime);
+            _JointRig[0].position = Vector3.Slerp(_JointRig[0].position, KinectPos, (30 - smoothFactorSpineBase) * Time.deltaTime);
         }
         return;
     }
@@ -391,11 +388,11 @@ public class AvatarController : MonoBehaviour
     {
         if (BoneIndex == 0)
         {
-            _JointRig[BoneIndex].rotation = Quaternion.Slerp(_JointRig[BoneIndex].rotation, newRotation, smoothFactorRotationSpineBase * Time.deltaTime);
+            _JointRig[BoneIndex].rotation = Quaternion.Slerp(_JointRig[BoneIndex].rotation, newRotation, (30 - smoothFactorSpineBase) * Time.deltaTime);
         }
         else
         {
-            _JointRig[BoneIndex].rotation = Quaternion.Slerp(_JointRig[BoneIndex].rotation, newRotation, smoothFactor * Time.deltaTime);
+            _JointRig[BoneIndex].rotation = Quaternion.Slerp(_JointRig[BoneIndex].rotation, newRotation, (30- smoothFactor) * Time.deltaTime);
         }
         return;
     }
